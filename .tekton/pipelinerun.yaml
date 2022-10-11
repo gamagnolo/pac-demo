@@ -64,6 +64,7 @@ spec:
       - name: unit-tests
         taskRef:
           name: maven
+          kind: Task
         runAfter:
           - source-clone
         workspaces:
