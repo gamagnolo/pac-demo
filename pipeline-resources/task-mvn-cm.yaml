@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: maven-settings
-  namespace: cicd
+  namespace: pac-demo-pipelines
 data:
   settings.xml: |
     <?xml version="1.0" encoding="UTF-8"?>
