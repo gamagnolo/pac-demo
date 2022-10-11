@@ -16,7 +16,7 @@ metadata:
     # with taskRef and it will automatically be embedded into our pipeline.
     pipelinesascode.tekton.dev/task: "[git-clone]"
     pipelinesascode.tekton.dev/task-1: "[.tekton/tasks/maven.yaml]"
-    pipelinesascode.tekton.dev/task-2: "[.tekton/tasks/dependency-report]"
+    pipelinesascode.tekton.dev/task-2: "[.tekton/tasks/dependencyreport.yaml]"
 
     # Use maven task from hub
     #
