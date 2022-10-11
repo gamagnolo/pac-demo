@@ -15,7 +15,8 @@ metadata:
     # Fetch the git-clone task from hub, we are able to reference later on it
     # with taskRef and it will automatically be embedded into our pipeline.
     pipelinesascode.tekton.dev/task: "[git-clone]"
-    pipelinesascode.tekton.dev/task-1: "[maven]"
+    pipelinesascode.tekton.dev/task-1: "[.tekton/tasks/maven.yaml]"
+    pipelinesascode.tekton.dev/task-2: "[.tekton/tasks/dependency-report]"
 
     # Use maven task from hub
     #
@@ -76,6 +77,39 @@ spec:
         params:
         - name: GOALS
           value: ["package", "-f", "spring-petclinic"]
+      - name: code-analysis
+        taskRef:
+          name: maven
+        runAfter:
+          - source-clone
+        workspaces:
+          - name: source
+            workspace: workspace
+          - name: maven-settings
+            workspace: maven-settings
+        params:
+        - name: GOALS
+          value:
+          - install
+          - sonar:sonar
+          - -f
+          - spring-petclinic
+          - -Dsonar.host.url=http://sonarqube:9000
+          - -Dsonar.userHome=/tmp/sonar
+          - -DskipTests=true
+      - name: dependency-report
+        taskRef:
+          name: dependency-report
+        runAfter:
+          - source-clone
+        workspaces:
+          - name: source
+            workspace: workspace
+          - name: maven-settings
+            workspace: maven-settings
+        params:
+        - name: SOURCE_DIR
+          value: spring-petclinic
      # - name: fetch-repository
      #   taskRef:
      #     name: git-clone
