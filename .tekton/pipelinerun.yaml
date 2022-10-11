@@ -61,6 +61,19 @@ spec:
            value: spring-petclinic
          - name: deleteExisting
            value: "true"
+      - name: unit-tests
+        taskRef:
+          name: maven
+        runAfter:
+          - source-clone
+        workspaces:
+         - name: source
+           workspace: workspace
+         - name: maven-settings
+           workspace: maven-settings
+        params:
+        - name: GOALS
+          value: ["package", "-f", "spring-petclinic"]
      # - name: fetch-repository
      #   taskRef:
      #     name: git-clone
