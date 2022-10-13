@@ -22,6 +22,10 @@ spec:
       type: string
     - name: KUSTOMIZATION_PATH
       type: string
+    - name: GIT_TOKEN_SECRET_NAME
+      type: string
+    - name: GIT_TOKEN_SECRET_KEY
+      type: string
   workspaces:
     - description: The workspace consisting of maven project.
       name: workspace
@@ -48,6 +52,12 @@ spec:
         cat kustomization.yaml
 
     - name: git-commit
+      env:
+        - name: GITHUB_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: $(params.GIT_TOKEN_SECRET_NAME)
+              key: $(params.GIT_TOKEN_SECRET_KEY)
       image: quay.io/rcarrata/git:v2.26.2
       workingDir: $(workspaces.workspace.path)
       script: |
@@ -65,7 +75,7 @@ spec:
         git add $(params.KUSTOMIZATION_PATH)/kustomization.yaml
         git commit -m "[ci] Image digest updated"
 
-        git push https://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@github.com/gamagnolo/spring-petclinic-config.git
+        git push https://$GITHUB_TOKEN@github.com/gamagnolo/spring-petclinic-config.git
 
         RESULT_SHA="$(git rev-parse HEAD | tr -d '\n')"
         EXIT_CODE="$?"
