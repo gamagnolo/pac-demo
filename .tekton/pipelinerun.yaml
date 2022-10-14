@@ -228,7 +228,7 @@ spec:
         - name: GIT_TOKEN_SECRET_KEY_USERNAME
           value: username
         - name: GIT_TOKEN_SECRET_KEY_PWD
-          value: password 
+          value: password
         workspaces:
         - name: workspace
           workspace: workspace
