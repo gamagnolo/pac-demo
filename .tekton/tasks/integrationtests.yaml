@@ -1,0 +1,14 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: integration-tests
+  namespace: pac-demo-pipelines
+spec:
+  description: >-
+    This task simulates OK from integration tests
+  steps:
+    - name: integration-step
+      image: alpine
+      script: |
+        #!/bin/sh
+        echo "Integration tests successful"

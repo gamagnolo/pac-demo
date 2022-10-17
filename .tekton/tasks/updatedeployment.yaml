@@ -82,7 +82,7 @@ spec:
         git add $(params.KUSTOMIZATION_PATH)/kustomization.yaml
         git commit -m "[ci] Image digest updated"
 
-        git push https://$GITHUB_TOKEN@github.com/$GITHUB_USERNAME/spring-petclinic-config.git
+        git push https://$GITHUB_TOKEN@github.com/$GITHUB_USERNAME/food-app-config.git
 
         RESULT_SHA="$(git rev-parse HEAD | tr -d '\n')"
         EXIT_CODE="$?"

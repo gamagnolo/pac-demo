@@ -20,6 +20,7 @@ metadata:
     pipelinesascode.tekton.dev/task-3: "[.tekton/tasks/s2ijava11.yaml]"
     pipelinesascode.tekton.dev/task-4: "[.tekton/tasks/updatedeployment.yaml]"
     pipelinesascode.tekton.dev/task-5: "[.tekton/tasks/argocdsyncandwait.yaml]"
+    pipelinesascode.tekton.dev/task-6: "[.tekton/tasks/integrationtests.yaml]"
 
     # Use maven task from hub
     #
@@ -58,13 +59,13 @@ spec:
            workspace: workspace
         params:
          - name: url
-           value: https://github.com/gamagnolo/spring-petclinic
+           value: https://github.com/gamagnolo/food-app
          - name: revision
            value: main
          - name: depth
            value: "0"
          - name: subdirectory
-           value: spring-petclinic
+           value: food-app
          - name: deleteExisting
            value: "true"
       - name: unit-tests
@@ -79,7 +80,7 @@ spec:
            workspace: maven-settings
         params:
         - name: GOALS
-          value: ["package", "-f", "spring-petclinic"]
+          value: ["package", "-f", "food-app"]
       - name: code-analysis
         taskRef:
           name: maven
@@ -96,7 +97,7 @@ spec:
           - install
           - sonar:sonar
           - -f
-          - spring-petclinic
+          - food-app
           - -Dsonar.host.url=http://sonarqube:9000
           - -Dsonar.userHome=/tmp/sonar
           - -DskipTests=true
@@ -112,7 +113,7 @@ spec:
             workspace: maven-settings
         params:
         - name: SOURCE_DIR
-          value: spring-petclinic
+          value: food-app
       - name: release-app
         taskRef:
           name: maven
@@ -130,7 +131,7 @@ spec:
           value:
           - deploy
           - -f
-          - spring-petclinic
+          - food-app
           - -DskipTests=true
           - -DaltDeploymentRepository=nexus::default::http://nexus:8081/repository/maven-releases/
           - -DaltSnapshotDeploymentRepository=nexus::default::http://nexus:8081/repository/maven-snapshots/
@@ -145,9 +146,9 @@ spec:
         - name: MAVEN_MIRROR_URL
           value: http://nexus:8081/repository/maven-public/
         - name: PATH_CONTEXT
-          value: spring-petclinic/target
+          value: food-app/target
         - name: IMAGE_NAME
-          value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/spring-petclinic
+          value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/food-app
         - name: IMAGE_TAG
           value: latest
         workspaces:
@@ -161,7 +162,7 @@ spec:
           kind: ClusterTask
         params:
         - name: image
-          value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/spring-petclinic
+          value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/food-app
         - name: rox_api_token
           value: roxsecrets
         - name: rox_central_endpoint
@@ -178,7 +179,7 @@ spec:
           kind: ClusterTask
         params:
         - name: image
-          value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/spring-petclinic
+          value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/food-app
         - name: rox_api_token
           value: roxsecrets
         - name: rox_central_endpoint
@@ -193,7 +194,7 @@ spec:
           kind: ClusterTask
         params:
         - name: GIT_REPOSITORY
-          value: https://github.com/gamagnolo/spring-petclinic-config
+          value: https://github.com/gamagnolo/food-app-config
         - name: rox_api_token
           value: roxsecrets
         - name: rox_central_endpoint
@@ -205,7 +206,7 @@ spec:
         workspaces:
         - name: workspace
           workspace: workspace
-      - name: update-deployment
+      - name: update-deployment-dev
         runAfter:
           - image-scan
           - image-check
@@ -214,15 +215,15 @@ spec:
           name: git-update-deployment
         params:
         - name: GIT_REPOSITORY
-          value: https://github.com/gamagnolo/spring-petclinic-config
+          value: https://github.com/gamagnolo/food-app-config
         - name: CURRENT_IMAGE
           value: quay.io/siamaksade/spring-petclinic:latest
         - name: NEW_IMAGE
-          value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/spring-petclinic
+          value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/food-app
         - name: NEW_DIGEST
           value: "$(tasks.build-image.results.IMAGE_DIGEST)"
         - name: KUSTOMIZATION_PATH
-          value: environments/dev
+          value: overlays/ocp4dev
         - name: GIT_TOKEN_SECRET_NAME
           value: gamagnolo-github-token
         - name: GIT_TOKEN_SECRET_KEY_USERNAME
@@ -232,14 +233,52 @@ spec:
         workspaces:
         - name: workspace
           workspace: workspace
-      - name: wait-application
+      - name: wait-application-dev
         taskRef:
           name: argocd-task-sync-and-wait
         runAfter:
-          - update-deployment
+          - update-deployment-dev
         params:
         - name: application-name
-          value: dev-spring-petclinic
+          value: ocp4dev-food-app
+      - name: integration-tests
+        taskRef:
+          name: integration-tests
+        runAfter:
+          - wait-application-dev
+      - name: update-deployment-stage
+        runAfter:
+          - integration-tests
+        taskRef:
+          name: git-update-deployment
+        params:
+        - name: GIT_REPOSITORY
+          value: https://github.com/gamagnolo/food-app-config
+        - name: CURRENT_IMAGE
+          value: quay.io/siamaksade/spring-petclinic:latest
+        - name: NEW_IMAGE
+          value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/food-app
+        - name: NEW_DIGEST
+          value: "$(tasks.build-image.results.IMAGE_DIGEST)"
+        - name: KUSTOMIZATION_PATH
+          value: overlays/ocp4stage
+        - name: GIT_TOKEN_SECRET_NAME
+          value: gamagnolo-github-token
+        - name: GIT_TOKEN_SECRET_KEY_USERNAME
+          value: username
+        - name: GIT_TOKEN_SECRET_KEY_PWD
+          value: password
+        workspaces:
+        - name: workspace
+          workspace: workspace
+      - name: wait-application-stage
+        taskRef:
+          name: argocd-task-sync-and-wait
+        runAfter:
+          - update-deployment-stage
+        params:
+        - name: application-name
+          value: ocp4stage-food-app
   workspaces:
   - name: workspace
     volumeClaimTemplate:
