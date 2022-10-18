@@ -202,7 +202,7 @@ spec:
         - name: file
           value: deployment.yaml
         - name: deployment_files_path
-          value: app
+          value: base
         workspaces:
         - name: workspace
           workspace: workspace
