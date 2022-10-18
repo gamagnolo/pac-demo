@@ -148,7 +148,8 @@ spec:
         - name: PATH_CONTEXT
           value: food-app/target
         - name: IMAGE_NAME
-          value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/food-app
+          value: demo-registry-quay-quay-demo.apps.ocp4hub.sandbox963.opentlc.com/$(context.pipelineRun.namespace)/food-app
+          #value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/food-app
         - name: IMAGE_TAG
           value: latest
         workspaces:
@@ -162,7 +163,8 @@ spec:
           kind: ClusterTask
         params:
         - name: image
-          value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/food-app
+          #value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/food-app
+          value: demo-registry-quay-quay-demo.apps.ocp4hub.sandbox963.opentlc.com/$(context.pipelineRun.namespace)/food-app
         - name: rox_api_token
           value: roxsecrets
         - name: rox_central_endpoint
@@ -179,7 +181,8 @@ spec:
           kind: ClusterTask
         params:
         - name: image
-          value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/food-app
+          #value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/food-app
+          value: demo-registry-quay-quay-demo.apps.ocp4hub.sandbox963.opentlc.com/$(context.pipelineRun.namespace)/food-app
         - name: rox_api_token
           value: roxsecrets
         - name: rox_central_endpoint
@@ -219,7 +222,8 @@ spec:
         - name: CURRENT_IMAGE
           value: quay.io/siamaksade/spring-petclinic:latest
         - name: NEW_IMAGE
-          value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/food-app
+          #value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/food-app
+          value: demo-registry-quay-quay-demo.apps.ocp4hub.sandbox963.opentlc.com/$(context.pipelineRun.namespace)/food-app
         - name: NEW_DIGEST
           value: "$(tasks.build-image.results.IMAGE_DIGEST)"
         - name: KUSTOMIZATION_PATH
@@ -258,6 +262,7 @@ spec:
           value: quay.io/siamaksade/spring-petclinic:latest
         - name: NEW_IMAGE
           value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/food-app
+          value: demo-registry-quay-quay-demo.apps.ocp4hub.sandbox963.opentlc.com/$(context.pipelineRun.namespace)/food-app
         - name: NEW_DIGEST
           value: "$(tasks.build-image.results.IMAGE_DIGEST)"
         - name: KUSTOMIZATION_PATH
