@@ -284,6 +284,11 @@ spec:
         params:
         - name: application-name
           value: ocp4stage-food-app
+      - name: final-task
+        taskRef:
+          name: integration-tests
+        runAfter:
+          - wait-application-stage
   workspaces:
   - name: workspace
     volumeClaimTemplate:
