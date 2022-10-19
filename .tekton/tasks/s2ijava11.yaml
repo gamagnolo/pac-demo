@@ -41,7 +41,9 @@ spec:
       name: IMAGE_TAG
       type: string
       default: "latest"
-
+  workspaces:
+    - description: The workspace
+      name: source
   results:
   - name: IMAGE_DIGEST
     description: Digest of the image just built.
@@ -154,6 +156,6 @@ spec:
       name: gen-source
     - emptyDir: {}
       name: envparams
-  workspaces:
-    - mountPath: /workspace/source
-      name: source
+ #workspaces:
+ #  - mountPath: /workspace/source
+ #    name: source
