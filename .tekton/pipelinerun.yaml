@@ -7,7 +7,7 @@ metadata:
     # updated by git push
     # The event we are targeting as seen from the webhook payload
     # this can be an array too, i.e: [pull_request, push]
-    pipelinesascode.tekton.dev/on-event: "[[pull_request, push]]"
+    pipelinesascode.tekton.dev/on-event: "[[push]]"
 
     # The branch or tag we are targeting (ie: main, refs/tags/*)
     pipelinesascode.tekton.dev/on-target-branch: "[tektonci]"
@@ -220,7 +220,7 @@ spec:
         - name: GIT_REPOSITORY
           value: https://github.com/gamagnolo/food-app-config
         - name: CURRENT_IMAGE
-          value: quay.io/siamaksade/spring-petclinic:latest
+          value: demo-registry-quay-quay-demo.apps.ocp4hub.sandbox963.opentlc.com/$(context.pipelineRun.namespace)/old-food-app
         - name: NEW_IMAGE
           #value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/food-app
           value: demo-registry-quay-quay-demo.apps.ocp4hub.sandbox963.opentlc.com/$(context.pipelineRun.namespace)/food-app
@@ -259,7 +259,7 @@ spec:
         - name: GIT_REPOSITORY
           value: https://github.com/gamagnolo/food-app-config
         - name: CURRENT_IMAGE
-          value: quay.io/siamaksade/spring-petclinic:latest
+          value: demo-registry-quay-quay-demo.apps.ocp4hub.sandbox963.opentlc.com/$(context.pipelineRun.namespace)/old-food-app
         - name: NEW_IMAGE
           value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/food-app
           value: demo-registry-quay-quay-demo.apps.ocp4hub.sandbox963.opentlc.com/$(context.pipelineRun.namespace)/food-app
