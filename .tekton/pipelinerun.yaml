@@ -4,7 +4,7 @@ kind: PipelineRun
 metadata:
   name: pac-demo
   annotations:
-    # PAC updated by git push
+    # PACC updated by git push
     # The event we are targeting as seen from the webhook payload
     # this can be an array too, i.e: [pull_request, push]
     pipelinesascode.tekton.dev/on-event: "[push]"
@@ -284,11 +284,6 @@ spec:
         params:
         - name: application-name
           value: ocp4stage-food-app
-      - name: final-task
-        taskRef:
-          name: integration-tests
-        runAfter:
-          - wait-application-stage
   workspaces:
   - name: workspace
     volumeClaimTemplate:
