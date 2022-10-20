@@ -41,7 +41,9 @@ spec:
       name: IMAGE_TAG
       type: string
       default: "latest"
-
+  workspaces:
+    - mountPath: /workspace/source
+      name: source
   results:
   - name: IMAGE_DIGEST
     description: Digest of the image just built.
