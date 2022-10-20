@@ -41,17 +41,12 @@ spec:
       name: IMAGE_TAG
       type: string
       default: "latest"
-  workspaces:
-    - description: The workspace
-      name: source
+
   results:
   - name: IMAGE_DIGEST
     description: Digest of the image just built.
   steps:
-    - name: gen-env-file
-      image: image-registry.openshift-image-registry.svc:5000/openshift/s2i-rhel8
-      #image: 'registry.redhat.io/ocp-tools-43-tech-preview/source-to-image-rhel8@sha256:562dbdac04ae9260e21d457585b3251fd8cc5310966f8fc544fb77dc544c92f8'
-      args:
+    - args:
         - |-
           echo "MAVEN_CLEAR_REPO=$(params.MAVEN_CLEAR_REPO)" > env-file
 
@@ -68,6 +63,9 @@ spec:
       command:
         - /bin/sh
         - '-c'
+      image: >-
+        registry.redhat.io/ocp-tools-43-tech-preview/source-to-image-rhel8@sha256:562dbdac04ae9260e21d457585b3251fd8cc5310966f8fc544fb77dc544c92f8
+      name: gen-env-file
       resources: {}
       volumeMounts:
         - mountPath: /env-params
@@ -84,7 +82,8 @@ spec:
         - /gen-source/Dockerfile.gen
         - '--environment-file'
         - /env-params/env-file
-      image: 'registry.redhat.io/ocp-tools-43-tech-preview/source-to-image-rhel8@sha256:562dbdac04ae9260e21d457585b3251fd8cc5310966f8fc544fb77dc544c92f8'
+      image: >-
+        registry.redhat.io/ocp-tools-43-tech-preview/source-to-image-rhel8@sha256:562dbdac04ae9260e21d457585b3251fd8cc5310966f8fc544fb77dc544c92f8
       name: generate
       resources: {}
       volumeMounts:
@@ -106,7 +105,8 @@ spec:
         - '-t'
         - $(params.IMAGE_NAME):latest
         - .
-      image: 'registry.redhat.io/rhel8/buildah@sha256:180c4d9849b6ab0e5465d30d4f3a77765cf0d852ca1cb1efb59d6e8c9f90d467'
+      image: >-
+        registry.redhat.io/rhel8/buildah@sha256:180c4d9849b6ab0e5465d30d4f3a77765cf0d852ca1cb1efb59d6e8c9f90d467
       name: build
       resources: {}
       volumeMounts:
@@ -155,6 +155,6 @@ spec:
       name: gen-source
     - emptyDir: {}
       name: envparams
- #workspaces:
- #  - mountPath: /workspace/source
- #    name: source
+  workspaces:
+    - mountPath: /workspace/source
+      name: source
