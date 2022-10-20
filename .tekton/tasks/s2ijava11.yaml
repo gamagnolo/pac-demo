@@ -46,7 +46,8 @@ spec:
   - name: IMAGE_DIGEST
     description: Digest of the image just built.
   steps:
-    - name: gen-env-file
+    - image: registry.redhat.io/ocp-tools-43-tech-preview/source-to-image-rhel8@sha256:562dbdac04ae9260e21d457585b3251fd8cc5310966f8fc544fb77dc544c92f8
+      name: gen-env-file
       args:
         - |-
           echo "MAVEN_CLEAR_REPO=$(params.MAVEN_CLEAR_REPO)" > env-file
@@ -64,7 +65,6 @@ spec:
       command:
         - /bin/sh
         - '-c'
-      image: registry.redhat.io/ocp-tools-43-tech-preview/source-to-image-rhel8@sha256:562dbdac04ae9260e21d457585b3251fd8cc5310966f8fc544fb77dc544c92f8
       resources: {}
       volumeMounts:
         - mountPath: /env-params
