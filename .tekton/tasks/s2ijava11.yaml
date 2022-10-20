@@ -156,6 +156,3 @@ spec:
       name: gen-source
     - emptyDir: {}
       name: envparams
-  workspaces:
-    - mountPath: /workspace/source
-      name: source
