@@ -5,20 +5,17 @@ metadata:
   namespace: pac-demo-pipelines
   annotations:
     tekton.dev/displayName: s2i java 11
-    tekton.dev/pipelines.minVersion: 0.11.3
+    tekton.dev/pipelines.minVersion: 0.12.1
     tekton.dev/tags: 's2i, java, workspace'
 spec:
-  description: s2i-java-11 task clones a Git repository and builds and pushes a container
-    image using S2I and a Java 11 builder image.
+  description: clones a Git repo and builds and pushes a container image using S2I and a Java 11 builder image
   params:
     - default: .
       description: The location of the path to run s2i from
       name: PATH_CONTEXT
       type: string
     - default: 'true'
-      description: >-
-        Verify the TLS on the registry endpoint (for push/pull to a non-TLS
-        registry)
+      description: Verify TLS on the registry endpoint (for push/pull to a non-TLS registry)
       name: TLSVERIFY
       type: string
     - default: ''
@@ -45,13 +42,14 @@ spec:
       name: source
 
   results:
-  - name: IMAGE_DIGEST
-    description: Digest of the image just built.
+    - name: IMAGE_DIGEST
+      description: Digest of the image just built.
+
   steps:
     - image: registry.redhat.io/ocp-tools-43-tech-preview/source-to-image-rhel8@sha256:d9cc87b45489ae95bbcb3410a9b0d29b72f287eeefc01dcac662d2b556ce30a0
       name: gen-env-file
       args:
-        - |-
+        - |
           echo "MAVEN_CLEAR_REPO=$(params.MAVEN_CLEAR_REPO)" > env-file
 
           [[ '$(params.MAVEN_ARGS_APPEND)' != "" ]] &&

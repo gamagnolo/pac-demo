@@ -153,8 +153,8 @@ spec:
         - name: IMAGE_TAG
           value: latest
         workspaces:
-          - name: source
-            workspace: workspace
+        - name: source
+          workspace: workspace
       - name: image-scan
         runAfter:
           - build-image
