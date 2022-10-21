@@ -54,20 +54,6 @@ spec:
   steps:
     - image: registry.redhat.io/ocp-tools-43-tech-preview/source-to-image-rhel8@sha256:d9cc87b45489ae95bbcb3410a9b0d29b72f287eeefc01dcac662d2b556ce30a0
       name: gen-env-file
-      args:
-        - |
-          echo "MAVEN_CLEAR_REPO=$(params.MAVEN_CLEAR_REPO)" > env-file
-
-          [[ '$(params.MAVEN_ARGS_APPEND)' != "" ]] &&
-            echo "MAVEN_ARGS_APPEND=$(params.MAVEN_ARGS_APPEND)" >> env-file
-
-          [[ '$(params.MAVEN_MIRROR_URL)' != "" ]] &&
-            echo "MAVEN_MIRROR_URL=$(params.MAVEN_MIRROR_URL)" >> env-file
-
-          echo "Generated Env file"
-          echo "------------------------------"
-          cat env-file
-          echo "------------------------------"
       script: |
           #!/usr/bin/env bash
           echo "Hello from Bash!" | tee /tekton/results/IMAGE_DIGEST
