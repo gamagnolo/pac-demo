@@ -54,16 +54,17 @@ spec:
   steps:
     - image: registry.access.redhat.com/ubi8/ubi-minimal:latest
       name: gen-env-file
-      script: |
+      script: >
+        #!/usr/bin/env bash
 
         echo "MAVEN_CLEAR_REPO=$(params.MAVEN_CLEAR_REPO)" > env-file
         echo "MAVEN_ARGS_APPEND=$(params.MAVEN_ARGS_APPEND)" >> env-file
         echo "MAVEN_MIRROR_URL=$(params.MAVEN_MIRROR_URL)" >> env-file
 
         echo "Generated Env file"
-        echo "------------------------------"
+        echo "begin file"
         cat env-file
-        echo "------------------------------"
+        echo "end file"
 
         echo "Hello from Bash!" | tee /tekton/results/IMAGE_DIGEST
       resources: {}
