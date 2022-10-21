@@ -56,6 +56,18 @@ spec:
       name: gen-env-file
       script: |
           #!/usr/bin/env bash
+          echo "MAVEN_CLEAR_REPO=$(params.MAVEN_CLEAR_REPO)" > env-file
+
+          [[ '$(params.MAVEN_ARGS_APPEND)' != "" ]] &&
+            echo "MAVEN_ARGS_APPEND=$(params.MAVEN_ARGS_APPEND)" >> env-file
+
+          [[ '$(params.MAVEN_MIRROR_URL)' != "" ]] &&
+            echo "MAVEN_MIRROR_URL=$(params.MAVEN_MIRROR_URL)" >> env-file
+
+          echo "Generated Env file"
+          echo "------------------------------"
+          cat env-file
+          echo "------------------------------"
           echo "Hello from Bash!" | tee /tekton/results/IMAGE_DIGEST
       resources: {}
       volumeMounts:
