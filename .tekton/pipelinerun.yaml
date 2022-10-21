@@ -149,7 +149,6 @@ spec:
           value: food-app/target
         - name: IMAGE_NAME
           value: demo-registry-quay-quay-demo.apps.ocp4hub.sandbox963.opentlc.com/$(context.pipelineRun.namespace)/food-app
-          #value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/food-app
         - name: IMAGE_TAG
           value: latest
         workspaces:
@@ -163,7 +162,6 @@ spec:
           kind: ClusterTask
         params:
         - name: image
-          #value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/food-app
           value: demo-registry-quay-quay-demo.apps.ocp4hub.sandbox963.opentlc.com/$(context.pipelineRun.namespace)/food-app
         - name: rox_api_token
           value: roxsecrets
@@ -172,7 +170,8 @@ spec:
         - name: output_format
           value: table
         - name: image_digest
-          value: $(tasks.build-image.results.IMAGE_DIGEST)
+          #value: $(tasks.build-image.results.IMAGE_DIGEST)
+          value: "digestivo"
       - name: image-check
         runAfter:
           - build-image
@@ -181,14 +180,14 @@ spec:
           kind: ClusterTask
         params:
         - name: image
-          #value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/food-app
           value: demo-registry-quay-quay-demo.apps.ocp4hub.sandbox963.opentlc.com/$(context.pipelineRun.namespace)/food-app
         - name: rox_api_token
           value: roxsecrets
         - name: rox_central_endpoint
           value: roxsecrets
         - name: image_digest
-          value: $(tasks.build-image.results.IMAGE_DIGEST)
+          #value: $(tasks.build-image.results.IMAGE_DIGEST)
+          value: "digestivo"
       - name: deploy-check
         runAfter:
           - build-image
@@ -222,10 +221,10 @@ spec:
         - name: CURRENT_IMAGE
           value: demo-registry-quay-quay-demo.apps.ocp4hub.sandbox963.opentlc.com/$(context.pipelineRun.namespace)/old-food-app
         - name: NEW_IMAGE
-          #value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/food-app
           value: demo-registry-quay-quay-demo.apps.ocp4hub.sandbox963.opentlc.com/$(context.pipelineRun.namespace)/food-app
         - name: NEW_DIGEST
-          value: "$(tasks.build-image.results.IMAGE_DIGEST)"
+          #value: "$(tasks.build-image.results.IMAGE_DIGEST)"
+          value: "digestivo"
         - name: KUSTOMIZATION_PATH
           value: overlays/ocp4dev
         - name: GIT_TOKEN_SECRET_NAME
@@ -264,7 +263,8 @@ spec:
           value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/food-app
           value: demo-registry-quay-quay-demo.apps.ocp4hub.sandbox963.opentlc.com/$(context.pipelineRun.namespace)/food-app
         - name: NEW_DIGEST
-          value: "$(tasks.build-image.results.IMAGE_DIGEST)"
+          #value: "$(tasks.build-image.results.IMAGE_DIGEST)"
+          value: "digestivo"
         - name: KUSTOMIZATION_PATH
           value: overlays/ocp4stage
         - name: GIT_TOKEN_SECRET_NAME
