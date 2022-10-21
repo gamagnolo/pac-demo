@@ -48,7 +48,6 @@ spec:
     workspaces:
       - name: workspace
       - name: maven-settings
-#      - name: basic-auth
     tasks:
       - name: source-clone
         taskRef:
@@ -170,8 +169,7 @@ spec:
         - name: output_format
           value: table
         - name: image_digest
-          #value: $(tasks.build-image.results.IMAGE_DIGEST)
-          value: "digestivo"
+          value: $(tasks.build-image.results.IMAGE_DIGEST)
       - name: image-check
         runAfter:
           - build-image
@@ -186,8 +184,7 @@ spec:
         - name: rox_central_endpoint
           value: roxsecrets
         - name: image_digest
-          #value: $(tasks.build-image.results.IMAGE_DIGEST)
-          value: "digestivo"
+          value: $(tasks.build-image.results.IMAGE_DIGEST)
       - name: deploy-check
         runAfter:
           - build-image
@@ -223,8 +220,7 @@ spec:
         - name: NEW_IMAGE
           value: demo-registry-quay-quay-demo.apps.ocp4hub.sandbox963.opentlc.com/$(context.pipelineRun.namespace)/food-app
         - name: NEW_DIGEST
-          #value: "$(tasks.build-image.results.IMAGE_DIGEST)"
-          value: "digestivo"
+          value: "$(tasks.build-image.results.IMAGE_DIGEST)"
         - name: KUSTOMIZATION_PATH
           value: overlays/ocp4dev
         - name: GIT_TOKEN_SECRET_NAME
@@ -263,8 +259,7 @@ spec:
           value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/food-app
           value: demo-registry-quay-quay-demo.apps.ocp4hub.sandbox963.opentlc.com/$(context.pipelineRun.namespace)/food-app
         - name: NEW_DIGEST
-          #value: "$(tasks.build-image.results.IMAGE_DIGEST)"
-          value: "digestivo"
+          value: "$(tasks.build-image.results.IMAGE_DIGEST)"
         - name: KUSTOMIZATION_PATH
           value: overlays/ocp4stage
         - name: GIT_TOKEN_SECRET_NAME
