@@ -58,10 +58,10 @@ spec:
           #!/bin/sh
           echo "MAVEN_CLEAR_REPO=$(params.MAVEN_CLEAR_REPO)" > env-file
 
-          [[ '$(params.MAVEN_ARGS_APPEND)' != "" ]] &&
+          [ "$(params.MAVEN_ARGS_APPEND)" != "" ] &&
             echo "MAVEN_ARGS_APPEND=$(params.MAVEN_ARGS_APPEND)" >> env-file
 
-          [[ '$(params.MAVEN_MIRROR_URL)' != "" ]] &&
+          [ "$(params.MAVEN_MIRROR_URL)" != "" ] &&
             echo "MAVEN_MIRROR_URL=$(params.MAVEN_MIRROR_URL)" >> env-file
 
           echo "Generated Env file"
