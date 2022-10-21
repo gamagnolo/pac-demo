@@ -44,6 +44,7 @@ spec:
   results:
     - name: IMAGE_DIGEST
       description: Digest of the image just built.
+      default: "digestivo"
 
   steps:
     - image: registry.redhat.io/ocp-tools-43-tech-preview/source-to-image-rhel8@sha256:d9cc87b45489ae95bbcb3410a9b0d29b72f287eeefc01dcac662d2b556ce30a0
@@ -142,9 +143,6 @@ spec:
       volumeMounts:
         - mountPath: /var/lib/containers
           name: varlibcontainers
-    - name: digest-to-results
-      image: registry.redhat.io/rhel8/buildah@sha256:180c4d9849b6ab0e5465d30d4f3a77765cf0d852ca1cb1efb59d6e8c9f90d467
-      script: cat $(workspaces.source.path)/image-digest | tee /tekton/results/IMAGE_DIGEST
   volumes:
     - emptyDir: {}
       name: varlibcontainers
