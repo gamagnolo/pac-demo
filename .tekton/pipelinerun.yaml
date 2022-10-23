@@ -21,6 +21,8 @@ metadata:
     pipelinesascode.tekton.dev/task-4: "[.tekton/tasks/updatedeployment.yaml]"
     pipelinesascode.tekton.dev/task-5: "[.tekton/tasks/argocdsyncandwait.yaml]"
     pipelinesascode.tekton.dev/task-6: "[.tekton/tasks/integrationtests.yaml]"
+    pipelinesascode.tekton.dev/task-7: "[.tekton/tasks/zap-proxy.yaml]"
+    pipelinesascode.tekton.dev/task-8: "[.tekton/tasks/gatling.yaml]"
 
     # Use maven task from hub
     #
