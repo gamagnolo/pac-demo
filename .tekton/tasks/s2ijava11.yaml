@@ -64,7 +64,6 @@ spec:
         cat env-file
         echo 'End of file'
 
-        echo 'Hello from Bash!' | tee /tekton/results/IMAGE_DIGEST
       resources: {}
       volumeMounts:
         - mountPath: /env-params
@@ -83,7 +82,7 @@ spec:
         - /gen-source/Dockerfile.gen
         - '--environment-file'
         - /env-params/env-file
-        - echo 'Hello from Bash!' | tee /tekton/results/IMAGE_DIGEST
+        - echo 'Saving IMAGE_DIGEST in Pipeline Result!' | tee /tekton/results/IMAGE_DIGEST
       resources: {}
       volumeMounts:
         - mountPath: /gen-source
