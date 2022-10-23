@@ -279,6 +279,45 @@ spec:
         params:
         - name: application-name
           value: ocp4stage-food-app
+      - name: perf-tests-clone
+        taskRef:
+          name: git-clone
+        kind: ClusterTask
+        workspaces:
+        - name: output
+          workspace: workspace
+        runAfter:
+        - wait-application
+        params:
+        - name: url
+          value: https://github.com/gamagnolo/food-app-gatling
+        - name: subdirectory
+          value: food-app-gatling
+        - name: deleteExisting
+          value: "true"
+      - name: pentesting-test
+        taskRef:
+          name: zap-proxy
+        runAfter:
+        - perf-tests-clone
+        params:
+        - name: APP_URL
+          value: "http://food-app-devsecops.apps.ocp4stage.sandbox963.opentlc.com"
+        workspaces:
+        - name: workspace
+          workspace: workspace
+      - name: performance-test
+        taskRef:
+          name: gatling
+        runAfter:
+        - perf-tests-clone
+        params:
+        - name: APP_URL
+          value: "http://food-app-devsecops.apps.ocp4stage.sandbox963.opentlc.com"
+        workspaces:
+        - name: simulations
+          workspace: workspace
+          subPath: food-app-gatling
   workspaces:
   - name: workspace
     volumeClaimTemplate:
