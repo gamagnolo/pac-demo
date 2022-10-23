@@ -128,6 +128,21 @@ spec:
       volumeMounts:
         - mountPath: /var/lib/containers
           name: varlibcontainers
+    - command:
+        - buildah
+        - push
+        - '--storage-driver=vfs'
+        - '--tls-verify=$(params.TLSVERIFY)'
+        - --digestfile
+        - $(workspaces.source.path)/image-digest
+        - $(params.IMAGE_NAME):$(params.IMAGE_TAG)
+        - 'docker://$(params.IMAGE_NAME):latest'
+      image: registry.redhat.io/rhel8/buildah@sha256:180c4d9849b6ab0e5465d30d4f3a77765cf0d852ca1cb1efb59d6e8c9f90d467
+      name: push-latest
+      resources: {}
+      volumeMounts:
+        - mountPath: /var/lib/containers
+          name: varlibcontainers
     - name: digest-to-results
       image: registry.redhat.io/rhel8/buildah@sha256:180c4d9849b6ab0e5465d30d4f3a77765cf0d852ca1cb1efb59d6e8c9f90d467
-      script: echo 'Saving IMAGE_DIGEST in Pipeline Result' | tee /tekton/results/IMAGE_DIGEST
+      script: cat $(workspaces.source.path)/image-digest | tee /tekton/results/IMAGE_DIGEST
