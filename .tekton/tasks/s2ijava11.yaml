@@ -90,6 +90,29 @@ spec:
         - mountPath: /env-params
           name: envparams
       workingDir: $(workspaces.source.path)
+    - command:
+        - buildah
+        - bud
+        - '--storage-driver=vfs'
+        - '--tls-verify=$(params.TLSVERIFY)'
+        - '--layers'
+        - '-f'
+        - /gen-source/Dockerfile.gen
+        - '-t'
+        - $(params.IMAGE_NAME):$(params.IMAGE_TAG)
+        - '-t'
+        - $(params.IMAGE_NAME):latest
+        - .
+      image: >-
+        registry.redhat.io/rhel8/buildah@sha256:180c4d9849b6ab0e5465d30d4f3a77765cf0d852ca1cb1efb59d6e8c9f90d467
+      name: build
+      resources: {}
+      volumeMounts:
+        - mountPath: /var/lib/containers
+          name: varlibcontainers
+        - mountPath: /gen-source
+          name: gen-source
+      workingDir: /gen-source
     - name: digest-to-results
       image: registry.redhat.io/rhel8/buildah@sha256:180c4d9849b6ab0e5465d30d4f3a77765cf0d852ca1cb1efb59d6e8c9f90d467
       script: echo 'Saving IMAGE_DIGEST in Pipeline Result' | tee /tekton/results/IMAGE_DIGEST
