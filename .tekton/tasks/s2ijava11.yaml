@@ -73,6 +73,9 @@ spec:
       name: generate
       script: |
         s2i build $(params.PATH_CONTEXT) ' image-registry.openshift-image-registry.svc:5000/openshift/java:11 --image-scripts-url image:///usr/local/s2i --as-dockerfile ' /gen-source/Dockerfile.gen ' --environment-file ' /env-params/env-file
+        pwd
+        whoami
+        ls -l
         echo 'Saving IMAGE_DIGEST in Pipeline Result!' | tee /tekton/results/IMAGE_DIGEST
       resources: {}
       volumeMounts:
