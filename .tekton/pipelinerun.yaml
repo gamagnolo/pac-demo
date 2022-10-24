@@ -225,7 +225,7 @@ spec:
           workspace: workspace
       - name: update-deployment-dev
         runAfter:
-         -  image-sign
+          - image-sign
           - image-scan
           - image-check
           - deploy-check
