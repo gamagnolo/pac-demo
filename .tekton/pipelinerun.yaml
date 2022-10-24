@@ -23,6 +23,7 @@ metadata:
     pipelinesascode.tekton.dev/task-6: "[.tekton/tasks/integrationtests.yaml]"
     pipelinesascode.tekton.dev/task-7: "[.tekton/tasks/zap-proxy.yaml]"
     pipelinesascode.tekton.dev/task-8: "[.tekton/tasks/gatling.yaml]"
+    pipelinesascode.tekton.dev/task-9: "[.tekton/tasks/cosign-task.yaml]"
 
     # Use maven task from hub
     #
@@ -155,6 +156,21 @@ spec:
         workspaces:
         - name: source
           workspace: workspace
+      - name: image-sign
+        taskRef:
+          name: cosign-task
+        runAfter:
+          - build-image
+        params:
+        - name: IMAGE
+          value: "image-registry.openshift-image-registry.svc:5000/pac-demo-pipelines/cosign-pod"
+        - name: SIGNATURE_IMAGE
+          value: demo-registry-quay-quay-demo.apps.ocp4hub.sandbox963.opentlc.com/$(context.pipelineRun.namespace)/food-app
+        - name: ARGS
+          value:
+          - "sign"
+          - "--allow-insecure-registry"
+          - "--key k8s://pac-demo-pipelines/signing-secrets"
       - name: image-scan
         runAfter:
           - build-image
