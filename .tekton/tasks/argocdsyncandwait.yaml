@@ -34,7 +34,7 @@ spec:
           name: argocd-env-secret  # used for authentication (username/password or auth token)
   steps:
     - name: login-sync-wait
-      image: demo-registry-quay-quay-demo.apps.ocp4hub.sandbox963.opentlc.com/cicd-demo/argocd:$(params.argocd-version)
+      image: demo-registry-quay-quay-demo.apps.cluster-lbl8h.lbl8h.sandbox1206.opentlc.com/pac-demo-pipelines/argocd:$(params.argocd-version)
       script: |
         if [ -z $ARGOCD_AUTH_TOKEN ]; then
           yes | argocd login $ARGOCD_SERVER --username=$ARGOCD_USERNAME --password=$ARGOCD_PASSWORD ;
