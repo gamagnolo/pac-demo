@@ -275,7 +275,6 @@ spec:
         - name: CURRENT_IMAGE
           value: demo-registry-quay-quay-demo.apps.cluster-lbl8h.lbl8h.sandbox1206.opentlc.com/$(context.pipelineRun.namespace)/old-food-app
         - name: NEW_IMAGE
-          value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/food-app
           value: demo-registry-quay-quay-demo.apps.cluster-lbl8h.lbl8h.sandbox1206.opentlc.com/$(context.pipelineRun.namespace)/food-app
         - name: NEW_DIGEST
           value: "$(tasks.build-image.results.IMAGE_DIGEST)"
