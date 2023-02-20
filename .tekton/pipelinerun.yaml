@@ -321,7 +321,7 @@ spec:
         - perf-tests-clone
         params:
         - name: APP_URL
-          value: "http://food-app-devsecops.apps.ocp4stage.sandbox963.opentlc.com"
+          value: "http://food-app-devsecops.apps.tqbqn.sandbox1817.opentlc.com"
         workspaces:
         - name: workspace
           workspace: workspace
