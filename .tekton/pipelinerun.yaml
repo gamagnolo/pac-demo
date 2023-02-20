@@ -311,6 +311,10 @@ spec:
           value: https://github.com/gamagnolo/food-app-gatling
         - name: subdirectory
           value: food-app-gatling
+        - name: revision
+          value: main
+        - name: depth
+          value: "0"
         - name: deleteExisting
           value: "true"
       - name: pentesting-test
