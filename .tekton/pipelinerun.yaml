@@ -258,7 +258,7 @@ spec:
           - update-deployment-dev
         params:
         - name: application-name
-          value: ocp4dev-food-app
+          value: food-app-ocp4dev
       - name: integration-tests
         taskRef:
           name: integration-tests
@@ -296,7 +296,7 @@ spec:
           - update-deployment-stage
         params:
         - name: application-name
-          value: ocp4stage-food-app
+          value: food-app-ocp4stage
       - name: perf-tests-clone
         taskRef:
           name: git-clone
