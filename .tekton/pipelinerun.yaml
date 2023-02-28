@@ -150,7 +150,7 @@ spec:
         - name: PATH_CONTEXT
           value: food-app/target
         - name: IMAGE_NAME
-          value: demo-registry-quay-quay-demo.apps.cluster-9wcxk.9wcxk.sandbox2112.opentlc.com/$(context.pipelineRun.namespace)/food-app
+          value: demo-registry-quay-quay-demo.apps.cluster-bmgnq.bmgnq.sandbox1012.opentlc.com/$(context.pipelineRun.namespace)/food-app
         - name: IMAGE_TAG
           value: latest
         workspaces:
@@ -165,7 +165,7 @@ spec:
         - name: IMAGE
           value: "image-registry.openshift-image-registry.svc:5000/pac-demo-pipelines/cosign-pod"
         - name: SIGNATURE_IMAGE
-          value: demo-registry-quay-quay-demo.apps.cluster-9wcxk.9wcxk.sandbox2112.opentlc.com/$(context.pipelineRun.namespace)/food-app
+          value: demo-registry-quay-quay-demo.apps.cluster-bmgnq.bmgnq.sandbox1012.opentlc.com/$(context.pipelineRun.namespace)/food-app
         - name: ARGS
           value:
           - "sign"
@@ -179,7 +179,7 @@ spec:
           kind: ClusterTask
         params:
         - name: image
-          value: demo-registry-quay-quay-demo.apps.cluster-9wcxk.9wcxk.sandbox2112.opentlc.com/$(context.pipelineRun.namespace)/food-app
+          value: demo-registry-quay-quay-demo.apps.cluster-bmgnq.bmgnq.sandbox1012.opentlc.com/$(context.pipelineRun.namespace)/food-app
         - name: rox_api_token
           value: roxsecrets
         - name: rox_central_endpoint
@@ -196,7 +196,7 @@ spec:
           kind: ClusterTask
         params:
         - name: image
-          value: demo-registry-quay-quay-demo.apps.cluster-9wcxk.9wcxk.sandbox2112.opentlc.com/$(context.pipelineRun.namespace)/food-app
+          value: demo-registry-quay-quay-demo.apps.cluster-bmgnq.bmgnq.sandbox1012.opentlc.com/$(context.pipelineRun.namespace)/food-app
         - name: rox_api_token
           value: roxsecrets
         - name: rox_central_endpoint
@@ -235,9 +235,9 @@ spec:
         - name: GIT_REPOSITORY
           value: https://github.com/gamagnolo/food-app-config
         - name: CURRENT_IMAGE
-          value: demo-registry-quay-quay-demo.apps.cluster-9wcxk.9wcxk.sandbox2112.opentlc.com/$(context.pipelineRun.namespace)/old-food-app
+          value: demo-registry-quay-quay-demo.apps.cluster-bmgnq.bmgnq.sandbox1012.opentlc.com/$(context.pipelineRun.namespace)/old-food-app
         - name: NEW_IMAGE
-          value: demo-registry-quay-quay-demo.apps.cluster-9wcxk.9wcxk.sandbox2112.opentlc.com/$(context.pipelineRun.namespace)/food-app
+          value: demo-registry-quay-quay-demo.apps.cluster-bmgnq.bmgnq.sandbox1012.opentlc.com/$(context.pipelineRun.namespace)/food-app
         - name: NEW_DIGEST
           value: "$(tasks.build-image.results.IMAGE_DIGEST)"
         - name: KUSTOMIZATION_PATH
@@ -273,9 +273,9 @@ spec:
         - name: GIT_REPOSITORY
           value: https://github.com/gamagnolo/food-app-config
         - name: CURRENT_IMAGE
-          value: demo-registry-quay-quay-demo.apps.cluster-9wcxk.9wcxk.sandbox2112.opentlc.com/$(context.pipelineRun.namespace)/old-food-app
+          value: demo-registry-quay-quay-demo.apps.cluster-bmgnq.bmgnq.sandbox1012.opentlc.com/$(context.pipelineRun.namespace)/old-food-app
         - name: NEW_IMAGE
-          value: demo-registry-quay-quay-demo.apps.cluster-9wcxk.9wcxk.sandbox2112.opentlc.com/$(context.pipelineRun.namespace)/food-app
+          value: demo-registry-quay-quay-demo.apps.cluster-bmgnq.bmgnq.sandbox1012.opentlc.com/$(context.pipelineRun.namespace)/food-app
         - name: NEW_DIGEST
           value: "$(tasks.build-image.results.IMAGE_DIGEST)"
         - name: KUSTOMIZATION_PATH
